@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Div to Image</title>
+    <link rel="stylesheet" href="sheet.css">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="making_table.js"></script>
+</head>
+
+<body>
+    <div id="wrap">
+        <div id="board">
+            <div id="capture">
+                <h2>Div to Image Example</h2>
+                <p>This content will be captured and saved as an image.</p>
+            </div>
+        </div>
+        <div id="option">
+            <div id="start_date">
+                <div class="text">시작 일</div>
+                <div id="input_date">
+                    <select name="month" id="start_month">
+                        <option disabled selected>월</option>
+                    </select>
+                    <select name="day" id="start_day">
+                        <option disabled selected>일</option>
+                    </select>
+                </div>
+            </div>
+            <div id="duration">
+                <div class="text">기간</div>
+                <div id="input_duration">
+                    <input type="range" min="1" max="9" value="4" id="number_of_weeks1">
+                    <input type="number" min="1" max="9" value="4" size="2" id="number_of_weeks2">
+                </div>
+            </div>
+            <button id="saveButton">Save as Image</button>
+        </div>
+</body>
+
+</html>
