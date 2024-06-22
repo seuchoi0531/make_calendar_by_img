@@ -24,8 +24,10 @@
     right: 50px;
     top: 100px;
 }
-
-#capture {}
+#date_div {
+    position: absolute;
+    left:50%;
+}
 
 #option>div {
     width: 100%;
