@@ -4,8 +4,10 @@ $(document).ready(function () {
     var last_day_per_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     var week_range = document.getElementById("number_of_weeks1");
     var week_text = document.getElementById("number_of_weeks2");
+    var board = document.getElementById('capture');
 
     start_month.addEventListener("change", function() {
+        start_day.innerHTML = "";
         for (var day = 1; day <= last_day_per_month[start_month.value - 1]; day++) {
             start_day.innerHTML += "<option value=" + day + ">" + day + "</option>";
         }
@@ -30,6 +32,11 @@ $(document).ready(function () {
         if(week_text.value == "") {
             week_text.value = "";
         }
+    })
+
+    document.getElementById('makeButton').addEventListener('click', function() {
+        board.innerHTML = "";
+        
     })
 
     document.getElementById('saveButton').addEventListener('click', function () {

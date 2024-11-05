@@ -32,7 +32,6 @@
 #option>div {
     width: 100%;
     border-bottom: 5px grey solid;
-    margin-bottom: 5px;
 }
 
 .text {
@@ -43,8 +42,7 @@
 }
 
 #start_date {
-    height: 200px;
-    margin-bottom: 5px;
+    height: 195px;
 }
 
 #input_date {
@@ -67,7 +65,7 @@
 }
 
 #duration {
-    height: 100px;
+    height: 95px;
     position: relative;
 }
 #input_duration {
@@ -96,13 +94,28 @@
     top: 50%;
     transform: translate(600%, -50%);
 }
+#button_div {
+    height: 300px;
+    position: relative;
+    bottom: 0px;
+    border: 0 0 0;
+}
+
+#makeButton {
+    width: 100px;
+    height: 60px;
+    position: absolute;
+    transform: translateX(-50%);
+    top: 60px;
+    left: 50%;
+}
 
 #saveButton {
     width: 100px;
-    height: 100px;
+    height: 60px;
     position: absolute;
     transform: translateX(-50%);
-    bottom: 150px;
+    bottom: 60px;
     left: 50%;
 }
 #number_of_weeks2::-webkit-outer-spin-button,
@@ -110,3 +123,11 @@
             -webkit-appearance: none;
             margin: 0;
         }
+table, tr, td {
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+td {
+    width: 80px;
+    height: 80px;
+}
