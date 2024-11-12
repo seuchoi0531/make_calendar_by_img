@@ -48,20 +48,18 @@
 #input_date {
     height: 140px;
     position: relative;
+    text-align: center;
 }
 
 #input_date>select {
-    position: absolute;
+    display: inline-block;
     top: 0;
-    left: 50%;
-}
-
-#start_month {
-    transform: translate(-125%);
-}
-
-#start_day {
-    transform: translate(75%);
+    margin-left: 1px;
+    width: 60px;
+    height: 30px;
+    border-radius: 10px;
+    border-color: grey;
+    border-width: 3px;
 }
 
 #duration {
