@@ -41,19 +41,25 @@ $(document).ready(function () {
         var sd = parseInt(start_day.value);
         var dw = parseInt(day_of_the_week.value);
         var str = "";
+        var inc_day = 0;
         var tablestart = "<table>";
         var tableend = "</table>";
         var tableline = "<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
         str += tablestart;
         for (var i = 0; i < parseInt(week_range.value); i++) {
-            str += "<tr>";
+            str += "<tr id=\"line" + (i + 1) + "\">";
             for (var j = 0; j < 7; j++) {
-                str += "<td>";
+                str += "<td id=\"cell" + (i + 1) + j + "\">";
                 if (i == 0) {
                     if (j == dw)
                         str += sm + "/" + sd;
-                    else if (j > dw)
-                        str += sd + 1;
+                    else if (j > dw){
+                        inc_day++;
+                        str += sd + inc_day;
+                    }
+                } else {
+                    inc_day++;
+                    str += sd + inc_day;
                 }
                 str += "</td>";
             }
