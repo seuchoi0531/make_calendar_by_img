@@ -1,0 +1,14 @@
+table, tr, td {
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+td {
+    width: 80px;
+    height: 80px;
+}
+.sunday {
+    color: red;
+}
+.saturday {
+    color: blue;
+}

@@ -6,6 +6,7 @@ $(document).ready(function () {
     var week_range = document.getElementById("number_of_weeks1");
     var week_text = document.getElementById("number_of_weeks2");
     var board = document.getElementById('capture');
+    var border = [];
 
     start_month.addEventListener("change", function () {
         start_day.innerHTML = "";
@@ -49,17 +50,46 @@ $(document).ready(function () {
         for (var i = 0; i < parseInt(week_range.value); i++) {
             str += "<tr id=\"line" + (i + 1) + "\">";
             for (var j = 0; j < 7; j++) {
-                str += "<td id=\"cell" + (i + 1) + j + "\">";
+                if (j == 0)
+                    str += "<td id=\"cell" + (i + 1) + j + "\"" + "class=\"sunday\"" + ">";
+                else if (j == 6)
+                    str += "<td id=\"cell" + (i + 1) + j + "\"" + "class=\"saturday\"" + ">";
+                else
+                    str += "<td id=\"cell" + (i + 1) + j + "\">";
                 if (i == 0) {
                     if (j == dw)
                         str += sm + "/" + sd;
-                    else if (j > dw){
+                    else if (j > dw) {
                         inc_day++;
-                        str += sd + inc_day;
+                        if (sd + inc_day > last_day_per_month[sm - 1]) {
+                            sm++;
+                            sd = 1;
+                            inc_day = 0;
+                            str += sm + "/" + sd;
+                            border.push(toString(i + 1) + toString(j));
+                            console.log("dsfadsfaas");
+                            console.log(toString(i + 1) + toString(j));
+                            for (qq = 0; qq < border.length; qq++)
+                                console.log(border[qq]);
+                        }
+                        else
+                            str += sd + inc_day;
                     }
                 } else {
                     inc_day++;
-                    str += sd + inc_day;
+                    if (sd + inc_day > last_day_per_month[sm - 1]) {
+                        sm++;
+                        sd = 1;
+                        inc_day = 0;
+                        str += sm + "/" + sd;
+                        border.push(toString(i + 1) + toString(j));
+                        console.log("dsfadsfaas");
+                        console.log(toString(i + 1) + toString(j));
+                        for (qq = 0; qq < border.length; qq++)
+                            console.log(border[qq]);
+                    }
+                    else
+                        str += sd + inc_day;
                 }
                 str += "</td>";
             }
