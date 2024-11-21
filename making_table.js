@@ -66,11 +66,8 @@ $(document).ready(function () {
                             sd = 1;
                             inc_day = 0;
                             str += sm + "/" + sd;
-                            border.push(toString(i + 1) + toString(j));
-                            console.log("dsfadsfaas");
-                            console.log(toString(i + 1) + toString(j));
-                            for (qq = 0; qq < border.length; qq++)
-                                console.log(border[qq]);
+                            border.push(i + 1);
+                            border.push(j);
                         }
                         else
                             str += sd + inc_day;
@@ -82,11 +79,8 @@ $(document).ready(function () {
                         sd = 1;
                         inc_day = 0;
                         str += sm + "/" + sd;
-                        border.push(toString(i + 1) + toString(j));
-                        console.log("dsfadsfaas");
-                        console.log(toString(i + 1) + toString(j));
-                        for (qq = 0; qq < border.length; qq++)
-                            console.log(border[qq]);
+                        border.push(i + 1);
+                        border.push(j);
                     }
                     else
                         str += sd + inc_day;
@@ -97,11 +91,27 @@ $(document).ready(function () {
         }
         str += tableend;
         board.innerHTML = str;
+
+
         console.log(board.innerHTML);
     })
 
     document.getElementById('saveButton').addEventListener('click', function () {
-        html2canvas(document.getElementById('capture')).then(canvas => {
+        var captureElement = document.getElementById('capture');
+        // DOM 요소를 이미지로 변환
+        domtoimage.toPng(captureElement)
+            .then(function (dataUrl) {
+                // 이미지 저장
+                var link = document.createElement('a');
+                link.href = dataUrl;
+                link.download = 'capture.png';
+                link.click();
+            })
+            .catch(function (error) {
+                console.error('Capture failed', error);
+            });
+        /*
+        html2canvas(document.getElementById('capture'), { scale: 1}).then(canvas => {
             // Convert the canvas to a data URL
             var imgData = canvas.toDataURL('image/png');
 
@@ -113,5 +123,6 @@ $(document).ready(function () {
             // Trigger the download
             link.click();
         });
+        */
     });
 });

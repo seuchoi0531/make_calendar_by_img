@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save as Image</title>
+    <style>
+        table,
+        tr,
+        td {
+            padding: 0;
+            border: 1px solid #000;
+            border-collapse: collapse;
+        }
+
+        td {
+            width: 78px;
+            height: 78px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="capture" style="border: 1px solid black; padding: 10px; background-color: white;">
+        <table>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <h2>Capture this area</h2>
+        <p>This is the area that will be captured as an image.</p>
+    </div>
+    <button id="saveButton">Save as Image</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script>
+        document.getElementById('saveButton').addEventListener('click', function () {
+            var captureElement = document.getElementById('capture');
+
+            // DOM 요소를 이미지로 변환
+            domtoimage.toPng(captureElement)
+                .then(function (dataUrl) {
+                    // 이미지 저장
+                    var link = document.createElement('a');
+                    link.href = dataUrl;
+                    link.download = 'capture.png';
+                    link.click();
+                })
+                .catch(function (error) {
+                    console.error('Capture failed', error);
+                });
+        });
+    </script>
+</body>
+
+</html>
