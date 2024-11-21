@@ -92,7 +92,47 @@ $(document).ready(function () {
         str += tableend;
         board.innerHTML = str;
 
-
+        for (var i = 0; i < border.length / 2; i++) {
+            for (var j = 0; j < 7; j++) {
+                var cell = document.getElementById("cell" + border[parseInt(i * 2)] + j);
+                console.log("cell\n");
+                console.log("cell" + border[i * 2] + j);
+                if (parseInt(border[parseInt(i * 2)]) == 0) {
+                    if (j < parseInt(border[parseInt(i * 2 + 1)])) {
+                        cell.style.backgroundColor = "green";
+                        cell.style.borderBottom = "3px solid black";
+                    }
+                    else if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0) {
+                        cell.style.backgroundColor = "green";
+                        cell.style.borderLeft = "3px solid black";
+                    }
+                }
+                else if (parseInt(border[parseInt(i * 2)]) == parseInt(week_range.value) - 1) {
+                    if (j >= parseInt(border[parseInt(i * 2 + 1)])) {
+                        cell.style.backgroundColor = "green";
+                        cell.style.borderTop = "3px solid black";
+                    }
+                    else if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0) {
+                        cell.style.backgroundColor = "green";
+                        cell.style.borderLeft = "3px solid black";
+                    }
+                }
+                else {
+                    if (j >= parseInt(border[parseInt(i * 2 + 1)])) {
+                        cell.style.backgroundColor = "green";
+                        cell.style.borderTop = "3px solid black";
+                    }
+                    else if (j < parseInt(border[parseInt(i * 2 + 1)])) {
+                        cell.style.backgroundColor = "green";
+                        cell.style.borderBottom = "3px solid black";
+                    }
+                    else if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0) {
+                        cell.style.backgroundColor = "green";
+                        cell.style.borderLeft = "3px solid black";
+                    }
+                }
+            }
+        }
         console.log(board.innerHTML);
     })
 
