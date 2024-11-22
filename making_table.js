@@ -7,6 +7,7 @@ $(document).ready(function () {
     var week_text = document.getElementById("number_of_weeks2");
     var board = document.getElementById('capture');
     var border = [];
+    var borderwidth = 5;
 
     start_month.addEventListener("change", function () {
         start_day.innerHTML = "";
@@ -47,6 +48,7 @@ $(document).ready(function () {
         var tableend = "</table>";
         var tableline = "<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
         str += tablestart;
+        border = [];
         for (var i = 0; i < parseInt(week_range.value); i++) {
             str += "<tr id=\"line" + (i + 1) + "\">";
             for (var j = 0; j < 7; j++) {
@@ -92,43 +94,56 @@ $(document).ready(function () {
         str += tableend;
         board.innerHTML = str;
 
+        /*
+        좌표보다 크면 top
+좌표보다 작으면 bottom
+좌표면 left
+
+좌표가 첫줄일때
+좌표보다 작으면 bottom
+    좌표가 첫칸이아닐때
+    좌표면 left
+
+좌표가 막줄일때
+    좌표가 첫칸이아닐때
+    좌표면 left
+좌표보다 크면 top
+좌표면 top
+
+좌표가 첫줄막줄이 아닐때
+좌표보다 크면 top
+좌표보다 작으면 bototm
+    좌표가 첫칸이 아닐때
+    좌표면 left
+좌표면 top
+*/
         for (var i = 0; i < border.length / 2; i++) {
             for (var j = 0; j < 7; j++) {
                 var cell = document.getElementById("cell" + border[parseInt(i * 2)] + j);
                 console.log("cell\n");
                 console.log("cell" + border[i * 2] + j);
                 if (parseInt(border[parseInt(i * 2)]) == 0) {
-                    if (j < parseInt(border[parseInt(i * 2 + 1)])) {
-                        cell.style.backgroundColor = "green";
-                        cell.style.borderBottom = "3px solid black";
-                    }
-                    else if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0) {
-                        cell.style.backgroundColor = "green";
-                        cell.style.borderLeft = "3px solid black";
-                    }
+                    if (j < parseInt(border[parseInt(i * 2 + 1)]))
+                        cell.style.borderBottom = borderwidth + "px solid black";
+                    else if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0)
+                        cell.style.borderLeft = borderwidth + "px solid black";
                 }
-                else if (parseInt(border[parseInt(i * 2)]) == parseInt(week_range.value) - 1) {
-                    if (j >= parseInt(border[parseInt(i * 2 + 1)])) {
-                        cell.style.backgroundColor = "green";
-                        cell.style.borderTop = "3px solid black";
-                    }
+                else if (parseInt(border[parseInt(i * 2)]) == parseInt(week_range.value)) {
+                    if (j > parseInt(border[parseInt(i * 2 + 1)]))
+                        cell.style.borderTop = borderwidth + "px solid black";
                     else if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0) {
-                        cell.style.backgroundColor = "green";
-                        cell.style.borderLeft = "3px solid black";
+                        cell.style.borderTop = borderwidth + "px solid black";
+                        cell.style.borderLeft = borderwidth + "px solid black";
                     }
                 }
                 else {
-                    if (j >= parseInt(border[parseInt(i * 2 + 1)])) {
-                        cell.style.backgroundColor = "green";
-                        cell.style.borderTop = "3px solid black";
-                    }
-                    else if (j < parseInt(border[parseInt(i * 2 + 1)])) {
-                        cell.style.backgroundColor = "green";
-                        cell.style.borderBottom = "3px solid black";
-                    }
+                    if (j > parseInt(border[parseInt(i * 2 + 1)]))
+                        cell.style.borderTop = borderwidth + "px solid black";
+                    else if (j < parseInt(border[parseInt(i * 2 + 1)]))
+                        cell.style.borderBottom = borderwidth + "px solid black";
                     else if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0) {
-                        cell.style.backgroundColor = "green";
-                        cell.style.borderLeft = "3px solid black";
+                        cell.style.borderTop = borderwidth + "px solid black";
+                        cell.style.borderLeft = borderwidth + "px solid black";
                     }
                 }
             }
