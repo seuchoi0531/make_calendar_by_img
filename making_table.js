@@ -9,6 +9,9 @@ $(document).ready(function () {
     var border = [];
     var borderwidth = 5;
 
+    window.oncontextmenu = function () { return false; };
+    window.onselectstart = function () { return false; };
+
     start_month.addEventListener("change", function () {
         start_day.innerHTML = "";
         for (var day = 1; day <= last_day_per_month[start_month.value - 1]; day++) {
@@ -44,18 +47,19 @@ $(document).ready(function () {
         var dw = parseInt(day_of_the_week.value);
         var str = "";
         var inc_day = 0;
-        var tablestart = "<table>";
+        var tablestart = "<table id=\"calendar\">";
         var tableend = "</table>";
         var tableline = "<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
         str += tablestart;
         border = [];
+
         for (var i = 0; i < parseInt(week_range.value); i++) {
             str += "<tr id=\"line" + (i + 1) + "\">";
             for (var j = 0; j < 7; j++) {
                 if (j == 0)
-                    str += "<td id=\"cell" + (i + 1) + j + "\"" + "class=\"sunday\"" + ">";
+                    str += "<td id=\"cell" + (i + 1) + j + "\"class=\"sunday\">";
                 else if (j == 6)
-                    str += "<td id=\"cell" + (i + 1) + j + "\"" + "class=\"saturday\"" + ">";
+                    str += "<td id=\"cell" + (i + 1) + j + "\"class=\"saturday\">";
                 else
                     str += "<td id=\"cell" + (i + 1) + j + "\">";
                 if (i == 0) {
@@ -120,8 +124,6 @@ $(document).ready(function () {
         for (var i = 0; i < border.length / 2; i++) {
             for (var j = 0; j < 7; j++) {
                 var cell = document.getElementById("cell" + border[parseInt(i * 2)] + j);
-                console.log("cell\n");
-                console.log("cell" + border[i * 2] + j);
                 if (parseInt(border[parseInt(i * 2)]) == 0) {
                     if (j < parseInt(border[parseInt(i * 2 + 1)]))
                         cell.style.borderBottom = borderwidth + "px solid black";
@@ -144,7 +146,17 @@ $(document).ready(function () {
                 }
             }
         }
-        console.log(board.innerHTML);
+        //cell 크기에 따라 값을 수정해야함
+        document.getElementById("calendar").addEventListener("click", function (e) {
+            var clicked_cell = document.getElementById("cell" + parseInt((e.layerY) / 79 + 1) + parseInt((e.layerX) / 79));
+            var color_clicked_cell = getComputedStyle(clicked_cell).backgroundColor;
+            if (color_clicked_cell == "rgb(255, 255, 255)")
+                clicked_cell.style.backgroundColor = "rgb(235, 255, 115)";
+            else if (color_clicked_cell == "rgb(235, 255, 115)")
+                clicked_cell.style.backgroundColor = "rgb(255, 0, 0)";
+            else if (color_clicked_cell == "rgb(255, 0, 0)")
+                clicked_cell.style.backgroundColor = "rgb(255, 255, 255)";
+        })
     })
 
     document.getElementById('saveButton').addEventListener('click', function () {
