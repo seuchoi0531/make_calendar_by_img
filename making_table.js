@@ -129,22 +129,18 @@ $(document).ready(function () {
                         cell.style.borderLeft = borderwidth + "px solid black";
                 }
                 else if (parseInt(border[parseInt(i * 2)]) == parseInt(week_range.value)) {
-                    if (j > parseInt(border[parseInt(i * 2 + 1)]))
+                    if (j >= parseInt(border[parseInt(i * 2 + 1)]))
                         cell.style.borderTop = borderwidth + "px solid black";
-                    else if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0) {
-                        cell.style.borderTop = borderwidth + "px solid black";
+                    if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0)
                         cell.style.borderLeft = borderwidth + "px solid black";
-                    }
                 }
                 else {
-                    if (j > parseInt(border[parseInt(i * 2 + 1)]))
+                    if (j >= parseInt(border[parseInt(i * 2 + 1)]))
                         cell.style.borderTop = borderwidth + "px solid black";
                     else if (j < parseInt(border[parseInt(i * 2 + 1)]))
                         cell.style.borderBottom = borderwidth + "px solid black";
-                    else if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0) {
-                        cell.style.borderTop = borderwidth + "px solid black";
+                    if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0)
                         cell.style.borderLeft = borderwidth + "px solid black";
-                    }
                 }
             }
         }
