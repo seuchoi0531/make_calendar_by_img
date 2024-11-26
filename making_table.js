@@ -10,6 +10,7 @@ $(document).ready(function () {
     var bordershadow = 1.25;
     var base_color = "rgb(235, 255, 115)";
     var white_color = "rgb(255, 255, 255)";
+    var erasecell = [];
 
     window.oncontextmenu = function () { return false; };
     window.onselectstart = function () { return false; };
@@ -174,7 +175,7 @@ $(document).ready(function () {
         }
 
         var tag_array = document.getElementsByTagName("td");
-        for (var i = 0; i < tag_array.length; i++){
+        for (var i = 0; i < tag_array.length; i++) {
             tag_array[i].style.height = "50px";
             tag_array[i].style.width = "79px";
         }
@@ -185,6 +186,22 @@ $(document).ready(function () {
                 clicked_cell.style.backgroundColor = base_color;
             else if (e.button == 2)
                 clicked_cell.style.backgroundColor = white_color;
+            else if (e.button == 1) {
+                if (clicked_cell.innerHTML == "") {
+                    for (var i = 0; i < erasecell.length; i++) {
+                        if (erasecell[i * 3] == parseInt((e.layerY) / 79 + 1)) {
+                            if (erasecell[i * 3 + 1] == parseInt((e.layerX) / 79)) {
+                                clicked_cell.innerHTML = erasecell[i * 3 + 2];
+                            }
+                        }
+                    }
+                } else {
+                    erasecell.push(parseInt((e.layerY) / 79 + 1));
+                    erasecell.push(parseInt((e.layerX) / 79));
+                    erasecell.push(clicked_cell.innerHTML);
+                    clicked_cell.innerHTML = "";
+                }
+            }
         })
     })
 
@@ -194,11 +211,62 @@ $(document).ready(function () {
             .then(function (dataUrl) {
                 var link = document.createElement('a');
                 link.href = dataUrl;
-                link.download = 'capture.png';
+                var str = imgName();
+                link.download = str + ".png";
+                //link.download = 'capture.png';
                 link.click();
             })
             .catch(function (error) {
                 console.error('Capture failed', error);
             });
     });
+    function imgName() {
+        var result = "";
+        var str = "";
+        var last_month = "";
+        var isFirst = true;
+        var tdarr = document.getElementsByTagName("td");
+        Array.from(tdarr).forEach((element, index) => {
+            if (element.innerHTML != "" && isFirst) {
+                str = element.innerHTML;
+                result += nomalizeDate(str);
+                result += "~";
+            }
+        });
+        isFirst = true;
+        Array.from(tdarr).reverse().forEach(element => {
+            var last_day = "";
+            if (element.innerHTML != "" && isFirst) {
+                if (element.innerHTML.includes("/"))
+                    result += nomalizeDate(element.innerHTML);
+                else {
+                    last_day = element.innerHTML;
+                }
+                isFirst = false;
+            }
+            if (element.innerHTML.includes("/") && !isFirst) {
+                str = element.innerHTML;
+                result += nomalizeDate(str);
+                result = result.substring(0, result.length - 2);
+                result += last_day;
+            }
+        })
+        return result;
+    }
+    function nomalizeDate(str) {
+        var result = "";
+        if (str.indexOf("/") == 1) {
+            result += "0";
+            result += str.substring(0, 1);
+        } else
+            result += str.substring(0, 2);
+        result += ".";
+        if (str.indexOf("/") == str.length - 2) {
+            result += "0";
+            result += str.substring(str.length - 1, str.length);
+        } else {
+            result += str.substring(str.length - 2, str.length);
+        }
+        return result;
+    }
 });
