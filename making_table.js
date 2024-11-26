@@ -8,6 +8,8 @@ $(document).ready(function () {
     var board = document.getElementById('capture');
     var border = [];
     var borderwidth = 5;
+    var base_color = "rgb(235, 255, 115)";
+    var white_color = "rgb(255, 255, 255)";
 
     window.oncontextmenu = function () { return false; };
     window.onselectstart = function () { return false; };
@@ -146,16 +148,18 @@ $(document).ready(function () {
                 }
             }
         }
+        var tag_array = document.getElementsByTagName("td");
+        for (var i = 0; i < tag_array.length; i++)
+            tag_array[i].style.height = "50px";
+
         //cell 크기에 따라 값을 수정해야함
-        document.getElementById("calendar").addEventListener("click", function (e) {
+        document.getElementById("calendar").addEventListener("mousedown", function (e) {
             var clicked_cell = document.getElementById("cell" + parseInt((e.layerY) / 79 + 1) + parseInt((e.layerX) / 79));
-            var color_clicked_cell = getComputedStyle(clicked_cell).backgroundColor;
-            if (color_clicked_cell == "rgb(255, 255, 255)")
-                clicked_cell.style.backgroundColor = "rgb(235, 255, 115)";
-            else if (color_clicked_cell == "rgb(235, 255, 115)")
-                clicked_cell.style.backgroundColor = "rgb(255, 0, 0)";
-            else if (color_clicked_cell == "rgb(255, 0, 0)")
-                clicked_cell.style.backgroundColor = "rgb(255, 255, 255)";
+            //var color_clicked_cell = getComputedStyle(clicked_cell).backgroundColor;
+            if (e.button == 0)
+                clicked_cell.style.backgroundColor = base_color;
+            else if (e.button == 2)
+                clicked_cell.style.backgroundColor = white_color;
         })
     })
 
