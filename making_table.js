@@ -7,7 +7,7 @@ $(document).ready(function () {
     var week_text = document.getElementById("number_of_weeks2");
     var board = document.getElementById('capture');
     var border = [];
-    var borderwidth = 5;
+    var bordershadow = 1.25;
     var base_color = "rgb(235, 255, 115)";
     var white_color = "rgb(255, 255, 255)";
 
@@ -51,7 +51,6 @@ $(document).ready(function () {
         var inc_day = 0;
         var tablestart = "<table id=\"calendar\">";
         var tableend = "</table>";
-        var tableline = "<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
         str += tablestart;
         border = [];
 
@@ -71,6 +70,8 @@ $(document).ready(function () {
                         inc_day++;
                         if (sd + inc_day > last_day_per_month[sm - 1]) {
                             sm++;
+                            if (sm == 13)
+                                sm = 1;
                             sd = 1;
                             inc_day = 0;
                             str += sm + "/" + sd;
@@ -123,39 +124,63 @@ $(document).ready(function () {
     좌표면 left
 좌표면 top
 */
+
         for (var i = 0; i < border.length / 2; i++) {
             for (var j = 0; j < 7; j++) {
                 var cell = document.getElementById("cell" + border[parseInt(i * 2)] + j);
-                if (parseInt(border[parseInt(i * 2)]) == 0) {
-                    if (j < parseInt(border[parseInt(i * 2 + 1)]))
-                        cell.style.borderBottom = borderwidth + "px solid black";
-                    else if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0)
-                        cell.style.borderLeft = borderwidth + "px solid black";
+                var cell_up, cell_down, cell_left;
+                if (parseInt(border[parseInt(i * 2)]) != 0)
+                    cell_up = document.getElementById("cell" + (border[parseInt(i * 2)] - 1) + j);
+                if (parseInt(border[parseInt(i * 2)]) != parseInt(week_range.value))
+                    cell_down = document.getElementById("cell" + (border[parseInt(i * 2)] + 1) + j);
+                if (parseInt(border[parseInt(i * 2 + 1)]) != 0)
+                    cell_left = document.getElementById("cell" + border[i * 2] + (j - 1));
+
+                if (parseInt(border[parseInt(i * 2)]) == 1) {
+                    if (j < parseInt(border[parseInt(i * 2 + 1)])) {
+                        cell.style.boxShadow = "0 -" + bordershadow + "px 0 0 black inset";
+                        cell_down.style.boxShadow = "0 " + bordershadow + "px 0 0 black inset";
+                    }
+                    else if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0) {
+                        cell.style.boxShadow = bordershadow + "px 0 0 0 black inset";
+                        cell_left.style.boxShadow = "-" + bordershadow + "px -" + bordershadow + "px 0 0 black inset";
+                    }
                 }
                 else if (parseInt(border[parseInt(i * 2)]) == parseInt(week_range.value)) {
-                    if (j >= parseInt(border[parseInt(i * 2 + 1)]))
-                        cell.style.borderTop = borderwidth + "px solid black";
-                    if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0)
-                        cell.style.borderLeft = borderwidth + "px solid black";
+                    if (j >= parseInt(border[parseInt(i * 2 + 1)])) {
+                        cell.style.boxShadow = "0 " + bordershadow + "px 0 0 black inset";
+                        cell_up.style.boxShadow = "0 -" + bordershadow + "px 0 0 black inset";
+                    }
+                    if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0) {
+                        cell.style.boxShadow = bordershadow + "px " + bordershadow + "px 0 0 black inset";
+                        cell_left.style.boxShadow = "-" + bordershadow + "px 0 0 0 black inset";
+                    }
                 }
                 else {
-                    if (j >= parseInt(border[parseInt(i * 2 + 1)]))
-                        cell.style.borderTop = borderwidth + "px solid black";
-                    else if (j < parseInt(border[parseInt(i * 2 + 1)]))
-                        cell.style.borderBottom = borderwidth + "px solid black";
-                    if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0)
-                        cell.style.borderLeft = borderwidth + "px solid black";
+                    if (j >= parseInt(border[parseInt(i * 2 + 1)])) {
+                        cell.style.boxShadow = "0 " + bordershadow + "px 0 0 black inset";
+                        cell_up.style.boxShadow = "0 -" + bordershadow + "px 0 0 black inset";
+                    }
+                    else if (j < parseInt(border[parseInt(i * 2 + 1)])) {
+                        cell.style.boxShadow = "0 -" + bordershadow + "px 0 0 black inset";
+                        cell_down.style.boxShadow = "0 " + bordershadow + "px 0 0 black inset";
+                    }
+                    if (j == parseInt(border[parseInt(i * 2 + 1)]) && j != 0) {
+                        cell.style.boxShadow = bordershadow + "px " + bordershadow + "px 0 0 black inset";
+                        cell_left.style.boxShadow = "-" + bordershadow + "px -" + bordershadow + "px 0 0 black inset";
+                    }
                 }
             }
         }
-        var tag_array = document.getElementsByTagName("td");
-        for (var i = 0; i < tag_array.length; i++)
-            tag_array[i].style.height = "50px";
 
-        //cell 크기에 따라 값을 수정해야함
+        var tag_array = document.getElementsByTagName("td");
+        for (var i = 0; i < tag_array.length; i++){
+            tag_array[i].style.height = "50px";
+            tag_array[i].style.width = "79px";
+        }
+
         document.getElementById("calendar").addEventListener("mousedown", function (e) {
             var clicked_cell = document.getElementById("cell" + parseInt((e.layerY) / 79 + 1) + parseInt((e.layerX) / 79));
-            //var color_clicked_cell = getComputedStyle(clicked_cell).backgroundColor;
             if (e.button == 0)
                 clicked_cell.style.backgroundColor = base_color;
             else if (e.button == 2)
@@ -165,10 +190,8 @@ $(document).ready(function () {
 
     document.getElementById('saveButton').addEventListener('click', function () {
         var captureElement = document.getElementById('capture');
-        // DOM 요소를 이미지로 변환
         domtoimage.toPng(captureElement)
             .then(function (dataUrl) {
-                // 이미지 저장
                 var link = document.createElement('a');
                 link.href = dataUrl;
                 link.download = 'capture.png';
@@ -177,19 +200,5 @@ $(document).ready(function () {
             .catch(function (error) {
                 console.error('Capture failed', error);
             });
-        /*
-        html2canvas(document.getElementById('capture'), { scale: 1}).then(canvas => {
-            // Convert the canvas to a data URL
-            var imgData = canvas.toDataURL('image/png');
-
-            // Create a temporary link element
-            var link = document.createElement('a');
-            link.href = imgData;
-            link.download = 'capture.png';
-
-            // Trigger the download
-            link.click();
-        });
-        */
     });
 });

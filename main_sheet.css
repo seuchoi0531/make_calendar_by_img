@@ -16,6 +16,12 @@
     top: 100px;
 }
 
+#capture {
+    display: inline-block;
+    width: auto;
+    height: auto;
+}
+
 #option {
     width: 200px;
     height: 600px;
