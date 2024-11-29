@@ -7,9 +7,10 @@
 
 #board {
     width: 600px;
-    height: 600px;
+    height: auto;
     background-color: lightblue;
-    padding: 10px;
+    text-align: center;
+    padding: 20px 0 20px 0;
     border: 2px solid #000;
     position: absolute;
     left: 100px;

@@ -86,6 +86,8 @@ $(document).ready(function () {
                     inc_day++;
                     if (sd + inc_day > last_day_per_month[sm - 1]) {
                         sm++;
+                        if (sm == 13)
+                            sm = 1;
                         sd = 1;
                         inc_day = 0;
                         str += sm + "/" + sd;
@@ -181,7 +183,11 @@ $(document).ready(function () {
         }
 
         document.getElementById("calendar").addEventListener("mousedown", function (e) {
-            var clicked_cell = document.getElementById("cell" + parseInt((e.layerY) / 79 + 1) + parseInt((e.layerX) / 79));
+            var x = parseInt((e.layerX - 25) / 80);
+            var y = parseInt((e.layerY - 22) / 80 + 1);
+            var clicked_cell = document.getElementById("cell" + y.toString() + x.toString());
+            console.log((e.layerY - 22) + ", " + (e.layerX - 25));
+            console.log(y + ", " + x);
             if (e.button == 0)
                 clicked_cell.style.backgroundColor = base_color;
             else if (e.button == 2)
@@ -189,15 +195,15 @@ $(document).ready(function () {
             else if (e.button == 1) {
                 if (clicked_cell.innerHTML == "") {
                     for (var i = 0; i < erasecell.length; i++) {
-                        if (erasecell[i * 3] == parseInt((e.layerY) / 79 + 1)) {
-                            if (erasecell[i * 3 + 1] == parseInt((e.layerX) / 79)) {
+                        if (erasecell[i * 3] == y) {
+                            if (erasecell[i * 3 + 1] == x) {
                                 clicked_cell.innerHTML = erasecell[i * 3 + 2];
                             }
                         }
                     }
                 } else {
-                    erasecell.push(parseInt((e.layerY) / 79 + 1));
-                    erasecell.push(parseInt((e.layerX) / 79));
+                    erasecell.push(y);
+                    erasecell.push(x);
                     erasecell.push(clicked_cell.innerHTML);
                     clicked_cell.innerHTML = "";
                 }
@@ -221,36 +227,53 @@ $(document).ready(function () {
             });
     });
     function imgName() {
-        var result = "";
+        var date = new Date();
+        var current_year = date.getFullYear() % 100;
+        var current_month = "";
+        var result = current_year + ".";
         var str = "";
-        var last_month = "";
         var isFirst = true;
         var tdarr = document.getElementsByTagName("td");
-        Array.from(tdarr).forEach((element, index) => {
+        Array.from(tdarr).forEach((element) => {
             if (element.innerHTML != "" && isFirst) {
                 str = element.innerHTML;
                 result += nomalizeDate(str);
-                result += "~";
-            }
-        });
-        isFirst = true;
-        Array.from(tdarr).reverse().forEach(element => {
-            var last_day = "";
-            if (element.innerHTML != "" && isFirst) {
-                if (element.innerHTML.includes("/"))
-                    result += nomalizeDate(element.innerHTML);
-                else {
-                    last_day = element.innerHTML;
-                }
                 isFirst = false;
             }
-            if (element.innerHTML.includes("/") && !isFirst) {
-                str = element.innerHTML;
+            if (element.innerHTML.indexOf("/") == 1) {
+                if (current_month == "12")
+                    current_year++;
+                current_month = element.innerHTML.substring(0, 1);
+            } else if (element.innerHTML.indexOf("/") == 2) {
+                if (current_month == "12")
+                    current_year++;
+                current_month = element.innerHTML.substring(0, 2);
+            }
+        });
+        result += "~" + current_year + ".";
+        isFirst = true;
+        var tdarrayrev = Array.from(tdarr).reverse();
+        var last_day = "";
+        for (var i = 0; i < tdarrayrev.length; i++) {
+            var e = tdarrayrev[i].innerHTML;
+            if (e != "" && isFirst) {
+                if (e.includes("/")) {
+                    result += nomalizeDate(e);
+                    break;
+                } else
+                    last_day = e;
+                isFirst = false;
+            }
+            if (e.includes("/") && !isFirst) {
+                str = e;
                 result += nomalizeDate(str);
                 result = result.substring(0, result.length - 2);
+                if (last_day.length == 1)
+                    result += "0";
                 result += last_day;
+                break;
             }
-        })
+        }
         return result;
     }
     function nomalizeDate(str) {
